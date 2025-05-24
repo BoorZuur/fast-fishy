@@ -2,17 +2,17 @@ import { Actor, Vector, CollisionType, Shape, Sprite } from "excalibur";
 import { Resources } from './resources.js';
 
 export class Ground extends Actor {
+    
+    speed
+
     constructor(x, y, width, height) {
-
-        // speed
-
         super({
             pos: new Vector(x, y),
             width: width,
             height: height,
             collisionType: CollisionType.Fixed // Makes the ground unmovable
         });
-        // speed = 500
+        this.speed = 500
     }
 
     onInitialize(engine) {
@@ -29,8 +29,8 @@ export class Ground extends Actor {
     }
 
     onPreUpdate(engine, delta) {
-        // Scroll the ground image by updating the sourceView
-        // this.speed += 1/1000;
-        this.sprite.sourceView.x += 0.5 * delta;
+        // this.sprite.sourceView.x += 0.5 * delta;
+        this.speed += 0.1; // Increase speed over time
+        this.sprite.sourceView.x -= -this.speed * delta / 1000; 
     }
 }

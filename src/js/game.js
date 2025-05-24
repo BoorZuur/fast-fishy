@@ -6,6 +6,8 @@ import { Background } from './background.js'
 import { UI } from './ui.js'
 import { Ground } from './ground.js';
 import { Obstacle } from './obstacle.js';
+import { LifeUp } from './lifeup.js'
+import { Shark } from './shark.js'
 
 export class Game extends Engine {
 
@@ -34,23 +36,28 @@ export class Game extends Engine {
         this.add(background)
 
         // Add a ground actor using the Ground class
-        let ground = new Ground(this.drawWidth / 2, this.drawHeight - 40, this.drawWidth, 80);
-        this.add(ground);
+        this.ground = new Ground(this.drawWidth / 2, this.drawHeight - 40, this.drawWidth, 80);
+        this.add(this.ground);
 
-        let player = new Player(700, 420)
-        this.add(player)
+        this.player = new Player(700, 420)
+        this.add(this.player)
 
         // Add obstacles
-        let obstacle1 = new Obstacle(1280 + Math.random() * 5000, 600, Resources.Coral1);
-        let obstacle2 = new Obstacle(1280 + Math.random() * 5000, 600, Resources.Coral2);
-        let obstacle3 = new Obstacle(1280 + Math.random() * 5000, 600, Resources.Coral3);
-        let obstacle4 = new Obstacle(1280 + Math.random() * 5000, 600, Resources.Coral4);
+        let obstacle1 = new Obstacle(2000 + Math.random() * 10000, 600, Resources.Coral1);
+        let obstacle2 = new Obstacle(2000 + Math.random() * 10000, 600, Resources.Coral2);
+        let obstacle3 = new Obstacle(2000 + Math.random() * 10000, 600, Resources.Coral3);
+        let obstacle4 = new Obstacle(2000 + Math.random() * 10000, 600, Resources.Coral4);
+        let shark = new Shark(2000 + Math.random() * 10000, 450);
 
         this.add(obstacle1);
         this.add(obstacle2);
         this.add(obstacle3);
-        
+        this.add(obstacle4);
+        this.add(shark);
 
+        // Add a LifeUp actor
+        let lifeUp = new LifeUp(5000 + Math.random() * 10000, 600);
+        this.add(lifeUp);
 
         // load the UI last
         // this is important because the UI needs to be on top of everything else

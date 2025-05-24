@@ -12,6 +12,7 @@ const Resources = {
     Coral4: new ImageSource('images/coral4.png'),
     NomNom: new Sound('sounds/plop.mp3'),
     Bones: new ImageSource('images/bones.png'),
+    LifeUp: new ImageSource('images/heart.png'),
 }
 
 const ResourceLoader = new Loader()
