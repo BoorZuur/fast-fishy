@@ -25,7 +25,7 @@ export class Game extends Engine {
                 gravity: new Vector(0, 2500),   // Global gravity matching player's acc
             }
         })
-        this.showDebug(true) // show hitboxes
+        this.showDebug(false) // debug mode
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
