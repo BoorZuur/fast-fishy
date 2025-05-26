@@ -1,25 +1,130 @@
-# Excalibur Startproject 2025
+# Fast Fishy
+Een endless runner game door Martijn
 
-- Vanaf de HR repository: klik op ***USE THIS TEMPLATE***. Kies jouw eigen github account. 
-- Kopieer de `git url` van jouw eigen repository (dit vind je onder de "code" button).
-- Open VS Code. Klik op "file" en kies "clone repository".
-- Npm start Vite met een eigen webserver, dus sla het project NIET op in je XAMPP of HERD folder waar al een webserver draait.
-- Typ `npm install` en `npm run dev` in de terminal in VS Code.
-- Installeer de [Chrome Excalibur Debugger](https://chromewebstore.google.com/detail/excalibur-dev-tools/dinddaeielhddflijbbcmpefamfffekc)
-- [Bekijk het instructie filmpje!](https://youtu.be/UIVpe4L5_P4)
 
-### Kies een resolutie
+## Klassendiagram
 
-***widescreen 16/9***
-- 640 × 360
-- 800 x 450
-- 1280 x 720
+```mermaid
+classDiagram
+    class Engine {
+      +add(actor: Actor) void
+      +start(loader: ResourceLoader) Promise~void~
+      +stop() void
+      +start() void
+      +input: InputManager
+      +player: Player
+      +ui: UI
+      +ground: Ground
+      +drawWidth: number
+      +drawHeight: number
+    }
+    class Actor {
+      +pos: Vector
+      +vel: Vector
+      +scale: Vector
+      +rotation: number
+      +angularVelocity: number
+      +width: number
+      +height: number
+      +graphics: GraphicsComponent
+      +body: BodyComponent
+      +scene: Scene
+      +onInitialize(engine: Engine) void
+      +onPreUpdate(engine: Engine, delta: number) void
+      +onPostUpdate(engine: Engine, delta: number) void
+      +addChild(actor: Actor) void
+      +on(eventName: string, handler: function) void
+      +kill() void
+    }
+    class Label {
+      %% Excalibur Label (simplified)
+      +text: string
+    }
 
-***retro 4/3***
-- 512 × 384
-- 640 × 480
-- 800 × 600
+    Game --|> Engine
+    Game *-- Player
+    Game *-- Ground
+    Game *-- UI
+    Game *-- Background
+    Game *-- "many" Obstacle
 
-### Bewerk deze readme file
+    Player --|> Actor
 
-Verwijder deze instructies, plaats hier een beschrijving van jouw game.
+    UI --|> Actor
+    UI *-- Label
+    UI *-- Label
+    UI *-- Label
+
+    Obstacle --|> Actor
+
+    Shark --|> Obstacle
+
+    LifeUp --|> Obstacle
+
+    Ground --|> Actor
+
+    Background --|> Actor
+
+    class Game {
+      +ui: UI
+      +ground: Ground
+      +player: Player
+      +constructor()
+      +startGame() void
+    }
+
+    class Player {
+      -#lives: number
+      +score: number
+      +isOnGround: boolean
+      +jumpStrength: number
+      +constructor()
+      +onInitialize(engine: Game) void
+      +hitSomething(event: CollisionEvent) void
+      +onPreUpdate(engine: Game) void
+    }
+
+    class UI {
+      -#scoreLabel: Label
+      -#livesLabel: Label
+      -#highScoreLabel: Label
+      +constructor()
+      +onInitialize(engine: Game) void
+      +updateScore(score: number) void
+      +updateLives(lives: number) void
+      +updateHighScore(highScore: number) void
+      +loadHighScore() number
+    }
+
+    class Obstacle {
+      +image: ImageSource
+      +constructor(x: number, y: number, image: ImageSource)
+      +onInitialize(engine: Game) void
+      +onPreUpdate(engine: Game) void
+      +obstacleLeft() void
+    }
+
+    class Shark {
+      +constructor(x: number, y: number)
+      +obstacleLeft() void
+    }
+
+    class LifeUp {
+      +constructor(x: number, y: number)
+      +obstacleLeft() void
+    }
+
+    class Ground {
+      +speed: number
+      +sprite: Sprite
+      +constructor(x: number, y: number, width: number, height: number)
+      +onInitialize(engine: Game) void
+      +onPreUpdate(engine: Game, delta: number) void
+    }
+
+    class Background {
+      -#sprite: Sprite
+      +onInitialize(engine: Game) void
+      +onPostUpdate(engine: Game, delta: number) void
+    }
+```
