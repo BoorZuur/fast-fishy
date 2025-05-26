@@ -8,14 +8,16 @@ import { UI } from './ui.js';
 export class Player extends Actor {
 
     #lives
+    #jumpStrength
+    #isOnGround
     score
 
     constructor() {
         super({ width: Resources.Fish.width, height: Resources.Fish.height });
         this.vel = new Vector(0, 0);
         this.body.collisionType = CollisionType.Active;
-        this.isOnGround = false;
-        this.jumpStrength = 1200;
+        this.#isOnGround = false;
+        this.#jumpStrength = 12000;
         this.#lives = 3;
     }
 
@@ -31,7 +33,7 @@ export class Player extends Actor {
     hitSomething(event) {
         // Check if collision is with ground
         if (event.other.owner instanceof Ground) {
-            this.isOnGround = true;
+            this.#isOnGround = true;
             this.rotation = 0;
             this.angularVelocity = 0
         } else if (event.other.owner instanceof LifeUp) {
@@ -67,16 +69,17 @@ export class Player extends Actor {
         }
     }
 
-    onPreUpdate(engine) {
+    onPreUpdate(engine, delta) {
         // Jump when Space key is pressed and player is on ground
-        if (engine.input.keyboard.wasPressed(Keys.Space) && this.isOnGround) {
-            this.vel = new Vector(this.vel.x, -this.jumpStrength);
-            this.isOnGround = false;
+        if (engine.input.keyboard.wasPressed(Keys.Space) && this.#isOnGround) {
+            // this.vel = new Vector(this.vel.x, -this.jumpStrength);
+            this.body.applyLinearImpulse(new Vector(0, - this.#jumpStrength));
+            this.#isOnGround = false;
             this.rotation = 5.5
             this.angularVelocity = 0.9
         }
         // squeeze the player when crouch key is pressed
-        if (engine.input.keyboard.isHeld(Keys.Down) && this.isOnGround) {
+        if (engine.input.keyboard.isHeld(Keys.Down) && this.#isOnGround) {
             this.scale = new Vector(1, 0.5); // Squeeze the player
         } else {
             this.scale = new Vector(1, 1); // Reset to normal size
