@@ -27,7 +27,7 @@ export class Player extends Actor {
         this.score = 0;
 
         this.pos = new Vector(100, 600);
-        this.on('collisionstart', (event) => this.hitSomething(event))
+        this.on('collisionstart', (event) => this.hitSomething(event)) // 
     }
 
     hitSomething(event) {
@@ -43,7 +43,7 @@ export class Player extends Actor {
         } else if (event.other.owner instanceof Obstacle) {
             this.#lives--;
             this.scene.engine.ui.updateLives(this.#lives);
-            event.other.owner.pos.x = 2000 + Math.random() * 10000;
+            event.other.owner.obstacleLeft(this.scene.engine);
             // update the UI with the new lives count
             if (this.#lives <= 0) {
                 console.log("Game Over");
@@ -80,9 +80,9 @@ export class Player extends Actor {
         }
         // squeeze the player when crouch key is pressed
         if (engine.input.keyboard.isHeld(Keys.Down) && this.#isOnGround) {
-            this.scale = new Vector(1, 0.5); // Squeeze the player
+            this.scale = new Vector(1, 0.5);
         } else {
-            this.scale = new Vector(1, 1); // Reset to normal size
+            this.scale = new Vector(1, 1);
         }
     }
 }

@@ -19,10 +19,9 @@ export class Game extends Engine {
             height: 720,
             maxFps: 60,
             displayMode: DisplayMode.FitScreen,
-            // Enable Arcade Physics
             physics: {
-                solver: SolverStrategy.Arcade, // Use Arcade solver
-                gravity: new Vector(0, 2500),   // Global gravity matching player's acc
+                solver: SolverStrategy.Arcade,
+                gravity: new Vector(0, 2500),
             }
         })
         this.showDebug(false) // debug mode
