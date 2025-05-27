@@ -27,7 +27,7 @@ export class Ground extends Actor {
     }
 
     onPreUpdate(engine, delta) {
-        this.speed += 0.1;
+        this.speed += 0.1; // AI: how can I match the speed of the ground with the obstacles
         this.sprite.sourceView.x -= -this.speed * delta / 1000; 
     }
 }
